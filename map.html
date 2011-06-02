@@ -1,0 +1,6 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><title>T2 Widgets</title><link rel="stylesheet" href="/stylesheets/style.css"/><script src="/javascripts/jquery.js"></script><script src="/javascripts/tooltipsy.js"></script><script src="/javascripts/underscore.js"></script><script src="/javascripts/spine.js"></script><script src="/javascripts/config.js"></script><script src="/coffee/models/region.js"></script><script src="/coffee/load_data.js"></script><script src="/coffee/controllers/map.js"></script><script src="/coffee/controllers/compare.js"></script><script src="/coffee/controllers/chart.js"></script></head><body><h1>Map</h1><div class="map_box"><div class="region_info"><h2>Where We Work</h2></div><div class="map_widget large_map_widget"></div></div><div class="map_widget small_map_widget"></div><script>$(function() {
+  window.Map = MapController.init('.large_map_widget')  
+  window.SmallMap = MapController.init('.small_map_widget')
+});
+
+</script></body></html>
