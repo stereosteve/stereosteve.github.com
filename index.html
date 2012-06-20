@@ -3,8 +3,9 @@ layout: default
 title: StereoSteve
 ---
 
-<div class="sixteen columns">
-  <h1>Steve Perkins</h1>
-  <h2>Hacker / Musician / NYC</h2>
-</div>
-
+<p>Welcome to my awesome homepage</p>
+<ul class="posts">
+  {% for post in site.posts %}
+    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+  {% endfor %}
+</ul>
