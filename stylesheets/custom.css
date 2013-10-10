@@ -1,0 +1,60 @@
+/*
+"Lucida Grande"
+*/
+
+* {
+	box-sizing: border-box;
+
+}
+body {
+	margin: 0;
+	padding: 0;
+	font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a {
+	color: #00B7FF;
+}
+
+.page {
+	padding: 80px;
+	border-bottom: 1px solid #ccc;
+}
+
+.screenshot {
+	max-width: 500px;
+	box-shadow: 0 0 24px rgba(0,0,0,0.3);
+	border: 1px solid #333;
+	background: firebrick;
+	float: left;
+	margin-right: 50px;
+}
+.screenshot img {
+	max-width: 100%;
+}
+
+.bd {
+	max-width: 500px;
+	float: left;
+}
+
+.bd h3 {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 100;
+	font-size: 48px;
+	line-height: 48px;
+}
+
+/*
+clearfix
+*/
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
