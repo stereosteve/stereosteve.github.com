@@ -19,8 +19,9 @@
 		// 	Math.random(),
 		// 	Math.random()
 		// )
-		var c = new Color(colours[Math.floor(colours.length * Math.random())])
-		c.alpha = Math.random()
+		var hex = '#' + colours[Math.floor(colours.length * Math.random())]
+		var c = new Color(hex)
+		c.alpha = Math.random() * 5
 		return c
 	}
 
@@ -44,20 +45,13 @@
 			point: center,
 			size: i / count * 50,
 			fillColor: randColor(),
-			// Set the shadow color of the circle to RGB black:
-	    shadowColor: new Color(255,255,255,0.6),
-	    // Set the shadow blur radius to 12:
-	    shadowBlur: 50,
-	    // Offset the shadow by { x: 5, y: 5 }
-	    shadowOffset: new Point(0,0)
 		});
-
-		path.fillColor = randColor()
 		path.data.vector = new Point({
 			angle: Math.random() * 360,
 			length : (i / count) * Math.random() / 5
 		});
 		path.data.rotate = (Math.random() - .5) * 5
+
 	}
 
 	var vector = new Point({
