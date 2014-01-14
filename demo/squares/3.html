@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Squares</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<canvas id="canvas" resize hidpi="off" style="background:black"></canvas>
+	<script type="text/javascript" src="paper-full.min.js"></script>
+	<script type="text/paperscript" canvas="canvas">
+
+
+// The amount of symbol we want to place;
+var count = 10;
+var isWebkit = 'webkitRequestAnimationFrame' in window;
+
+var colours = ["feff98", "79e3a7", "e8b2ea",
+               "84b299", "ffffff", "e7e7e7", "c9c9c9"];
+
+function randColor() {
+  var hex = '#' + colours[Math.floor(colours.length * Math.random())]
+  var c = new Color(hex)
+  c.alpha = Math.random() / 2
+  return c
+}
+
+for (var i = 0; i < count; i++) {
+
+  var data = {}
+  data.pos = Point.random() * view.size;
+  data.size = 500 + i * 2
+  data.color = randColor()
+  data.vector = new Point({
+    angle: Math.random() * 360,
+    length : (i / count) * Math.random() * 10
+  });
+  data.rotate = (Math.random() - .5) * 2
+  data.colorDelta = Math.random()
+
+  var path = new Path.Rectangle({
+    point: view.center - data.size / 2,
+    size: data.size,
+    fillColor: data.color,
+  })
+
+  path.data = data
+
+}
+
+
+var vector = new Point({
+  angle: 45,
+  length: 0
+});
+
+
+function onFrame(event) {
+
+  var rand = Math.floor(Math.random() * count)
+
+  for (var i = 0; i < count; i++) {
+    var item = project.activeLayer.children[i];
+    var data = item.data
+    // item.position += item.data.vector;
+    item.rotate(item.data.rotate)
+    keepInView(item)
+  }
+
+}
+
+function keepInView(item) {
+  var position = item.position;
+  var itemBounds = item.bounds;
+  var bounds = view.bounds;
+  if (itemBounds.left > bounds.width
+    || position.x < -itemBounds.width
+    || itemBounds.top > view.size.height
+    || position.y < -itemBounds.height)
+  {
+    item.position = view.center
+    item.data.colorDelta = Math.random()
+  }
+}
+
+	</script>
+</body>
+</html>
