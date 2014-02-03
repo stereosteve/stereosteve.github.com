@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Squares</title>
-	<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Squares</title>
+  <style>
+  body {
+    margin: 0; padding: 0;
+    overflow: hidden;
+  }
+  canvas {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+  </style>
 </head>
 <body>
-	<canvas id="canvas" resize hidpi="off" style="background:black"></canvas>
-	<script type="text/javascript" src="paper-full.min.js"></script>
-	<script type="text/paperscript" canvas="canvas" src="animation1.js"></script>
+
+  <canvas id="canvas" resize hidpi="off" style="background:black" stats keepalive="true"></canvas>
+
+  <script type="text/javascript" src="paper-full.min.js"></script>
+  <script type="text/javascript" src="Stats.js"></script>
+  <script type="text/paperscript" canvas="canvas" src="squares.js"></script>
 </body>
 </html>

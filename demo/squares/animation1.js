@@ -25,10 +25,10 @@ for (var i = 0; i < count; i++) {
   });
 
   // drop shadow on webkit only
-  if (isWebkit) {
-    path.shadowColor = new Color(255,255,255,0.9)
-    path.shadowBlur = 60
-  }
+  // if (isWebkit) {
+  //   path.shadowColor = new Color(255,255,255,0.9)
+  //   path.shadowBlur = 60
+  // }
 
   path.data.vector = new Point({
     angle: Math.random() * 360,
@@ -78,6 +78,12 @@ function onFrame(event) {
     var length = vector.length / 10 * item.data.size / 10;
     item.position += vector.normalize(length) + item.data.vector;
     item.rotate(item.data.rotate)
+    item.fillColor.hue += 1
+    if ((event.count + i) % 30 == 0) {
+      var rand = Math.random()
+      item.fillColor.brightness = rand + .6
+      item.scale(1 + (rand - .5) / 5)
+    }
     keepInView(item);
   }
 }
