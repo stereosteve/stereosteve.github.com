@@ -1,100 +1,102 @@
-<!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
-		<title>stereosteve</title>
-		<meta name="description" content="">
-		<meta name="author" content="">
-
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-		<link rel="stylesheet" href="stylesheets/skeleton.css">
-		<link rel="stylesheet" href="stylesheets/custom.css">
-
+		<title>LateNightGroove.ogg</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
 	</head>
 	<body>
+		<script src="js/three.js"></script>
+		<script>
 
 
-		<div class="container">
-			<h2>Work</h2>
-		</div>
-
-		<div class="container item">
-			<div class="ten columns alpha">
-				<a class="screenshot" href="http://r5rockstheworld.com/w"><img src="img/r5.png"></a>
-			</div>
-			<div class="six columns omega">
-				<h3>R5 Rocks the World</h3>
-				<p>
-					An interactive map I made for the R5 band via <a href="http://crowdsurge.com/">CrowdSurge</a>.
-					Fans could vote for their city to be added to the R5 world tour.
-					<ul>
-						<li>Facebook auth to prevent double voting.</li>
-						<li>jVectorMap + angular.js on front end.</li>
- 						<li>node.js and redis on backend.</li>
- 					</ul>
-				</p>
-			</div>
-		</div>
-
-		<div class="container item">
-			<div class="ten columns alpha">
-				<a class="screenshot" href="/demo/squares"><img src="img/squares.png"></a>
-			</div>
-			<div class="six columns omega">
-				<h3>Squares Animation</h3>
-				<p>
-					2D Squares animation, also for CrowdSurge.
-					Clicking a diamond would zoom it to the foreground to show UGC.
-					Used paper.js for canvas animation.
-					A demo version can be seen <a href="/demo/squares">here</a>.
-				</p>
-			</div>
-		</div>
-
-		<div class="container item">
-			<div class="ten columns alpha">
-				<a class="screenshot" href="http://poolparty.us"><img src="img/poolparty.png"></a>
-			</div>
-			<div class="six columns omega">
-				<h3>Pool Party</h3>
-				<p>
-					A realtime <a href="https://github.com/stereosteve/poolparty">open source</a> turntable.fm clone built on the SoundCloud API.
-					Built with node.js, angular and redis.
-				</p>
-			</div>
-		</div>
-
-		<div class="container item">
-			<div class="ten columns alpha">
-				<a class="screenshot" href="https://www.abacus.com"><img src="img/abacus.png"></a>
-			</div>
-			<div class="six columns omega">
-				<h3>Abacus</h3>
-				<p>Helped create initial version of payments system.  Wrote server in node.js and client with angluar.  Integrated with <a href="https://www.balancedpayments.com/">Balanced payments</a> API to perform ACH debits and credits.</p>
-			</div>
-		</div>
-
-		<div class="container item">
-			<div class="ten columns alpha">
-				<a class="screenshot" href="https://www.indabamusic.com"><img src="img/indaba.png"></a>
-			</div>
-			<div class="six columns omega">
-				<h3>Indaba Music</h3>
-				<p>Helped rewrite Indaba Music server and web front end.  Created a new web client in angular.js and helped implement new API server in Ruby.</p>
-			</div>
-		</div>
-
-		<div class="container item">
-			<div class="ten columns alpha">
-				<a class="screenshot" href="https://www.teachforamerica.org"><img src="img/tfa.png"></a>
-			</div>
-			<div class="six columns omega">
-				<h3>Teach For America</h3>
-				<p>Maintained old static HTML website and helped develop a migration strategy to move site to a CMS.</p>
-			</div>
-		</div>
 
 
+
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 80, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			var shapes = []
+			for (var i = 0; i < 18; i++) {
+
+				var geometry = new THREE.ConeGeometry( i, i + 1, i * 2 + 1 );
+				var material = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true, wireframeLinewidth: 3 } );
+				var cube = new THREE.Mesh( geometry, material );
+				if (i % 2 == 0) {
+					cube.rotation.x = Math.PI 
+				}
+				scene.add( cube );
+				shapes.push(cube)
+			}
+
+			camera.position.z = 5;
+
+
+			// resize
+			window.addEventListener( 'resize', onWindowResize, false );
+
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+
+
+
+
+			// audio
+			var listener = new THREE.AudioListener();
+			camera.add( listener );
+
+			// create a global audio source
+			var sound = new THREE.Audio( listener );
+
+			// load a sound and set it as the Audio object's buffer
+			var audioLoader = new THREE.AudioLoader();
+			audioLoader.load( 'LateNightGroove.ogg', function( buffer ) {
+				sound.setBuffer( buffer );
+				sound.setLoop( true );
+				// sound.setVolume( 0.5 );
+				sound.play();
+			});
+
+			var analyser = new THREE.AudioAnalyser( sound, 32 );
+
+
+
+
+
+
+
+			var animate = function () {
+				requestAnimationFrame( animate );
+
+				var data = analyser.getAverageFrequency();
+				if (data < 1) data = 1;
+				camera.position.z = 500 / data;
+
+				shapes.forEach(function(cube, i) {
+					cube.rotation.x += 0.001;
+					cube.rotation.y += 2 / data;
+				})
+
+				renderer.render(scene, camera);
+			};
+
+			animate();
+
+
+
+
+
+
+
+
+		</script>
 	</body>
 </html>
